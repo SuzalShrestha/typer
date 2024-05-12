@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body{
+        @apply bg-slate-800 font-mono min-h-screen place-items-center grid tracking-wider px-5;
+    }
+}
