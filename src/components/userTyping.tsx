@@ -1,3 +1,5 @@
+import Caret from "./caret";
+
 function UserTyping({
   userInput,
   className,
@@ -11,6 +13,7 @@ function UserTyping({
       {typing.map((char, index) => {
         return <Characters key={`${char}_${index}`} char={char} />;
       })}
+      <Caret />
     </div>
   );
 }
