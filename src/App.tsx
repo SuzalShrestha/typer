@@ -7,13 +7,17 @@ import UserTyping from "./components/userTyping";
 import useEngine from "./hooks/useEngine";
 import { ReactNode } from "react";
 function App() {
-  const { state, words, timeLeft } = useEngine();
+  const { state, words, timeLeft, userTyped } = useEngine();
   return (
     <>
       <Timer timeleft={timeLeft} />;
       <WordContainer>
         <Words words={words} />;
-        <UserTyping userInput={words} className="absolute inset-0" />
+        <UserTyping
+          userInput={userTyped}
+          words={words}
+          className="absolute inset-0"
+        />
       </WordContainer>
       <RestartButton
         className="text-slate-500 mx-auto mt-10"
