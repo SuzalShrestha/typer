@@ -1,5 +1,5 @@
 export const formatPercentage = (percentage: number) => {
-  return percentage.toFixed(0) + "%";
+  return percentage.toFixed(0);
 };
 export const calculateErrors = (actual: string, expected: string) => {
   const expectedChars = expected.split("");

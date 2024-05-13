@@ -6,8 +6,10 @@ import Results from "./components/results";
 import UserTyping from "./components/userTyping";
 import useEngine from "./hooks/useEngine";
 import { ReactNode } from "react";
+import { calculateAccuracyPercentage, formatPercentage } from "./utils/helper";
 function App() {
-  const { state, words, timeLeft, userTyped } = useEngine();
+  const { state, words, timeLeft, userTyped, errors, totalTyped, restart } =
+    useEngine();
   return (
     <>
       <Timer timeleft={timeLeft} />;
@@ -21,9 +23,17 @@ function App() {
       </WordContainer>
       <RestartButton
         className="text-slate-500 mx-auto mt-10"
-        onClick={() => null}
+        onClick={restart}
       />
-      <Results errors={10} accuracyPercent={90} total={100} className="mt-10" />
+      <Results
+        state={state}
+        errors={errors}
+        accuracyPercent={
+          +formatPercentage(calculateAccuracyPercentage(errors, totalTyped))
+        }
+        total={totalTyped}
+        className="mt-10"
+      />
     </>
   );
 }
