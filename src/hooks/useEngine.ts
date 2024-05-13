@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useWords from "./useWords";
 import useCountDownTimer from "./useCountDownTimer";
 import useTyping from "./useTyping";
 import { calculateErrors } from "../utils/helper";
 export type Engine = "start" | "run" | "end";
 const NumberOfWords = 10;
-const TimeLimit = 30;
+const TimeLimit = 10;
 function useEngine() {
   const [state, setState] = useState<Engine>("start");
   const { words, updateWords } = useWords(NumberOfWords);
@@ -13,11 +13,11 @@ function useEngine() {
     useCountDownTimer(TimeLimit);
   const { userTyped, cursor, clearTyped, resetTotalTyped, totalTyped } =
     useTyping({ enabled: state !== "end" });
-  const [errors, setErrors] = useState(0);
+  const errors = useRef(0);
   const isStarting = state === "start" && cursor > 0;
   const sumErrors = useCallback(() => {
     const wordsReached = words.substring(0, cursor);
-    setErrors((prev) => prev + calculateErrors(userTyped, wordsReached));
+    errors.current = errors.current + calculateErrors(wordsReached, userTyped);
   }, [cursor, userTyped, words]);
   const areWordsCompleted = cursor === words.length;
   //start as soon as the user types the first character
@@ -41,6 +41,7 @@ function useEngine() {
       console.log("words are completed");
       updateWords();
       clearTyped();
+      sumErrors();
     }
   }, [
     cursor,
@@ -57,10 +58,18 @@ function useEngine() {
     setState("start");
     stopCountDown();
     resetTotalTyped();
-    setErrors(0);
+    errors.current = 0;
     updateWords();
     clearTyped();
   }, [stopCountDown, resetTotalTyped, updateWords, clearTyped]);
-  return { state, words, timeLeft, userTyped, errors, totalTyped, restart };
+  return {
+    state,
+    words,
+    timeLeft,
+    userTyped,
+    errors: errors.current,
+    totalTyped,
+    restart,
+  };
 }
 export default useEngine;

@@ -12,9 +12,9 @@ function App() {
     useEngine();
   return (
     <>
-      <Timer timeleft={timeLeft} />;
+      <Timer timeleft={timeLeft} />
       <WordContainer>
-        <Words words={words} />;
+        <Words words={words} />
         <UserTyping
           userInput={userTyped}
           words={words}

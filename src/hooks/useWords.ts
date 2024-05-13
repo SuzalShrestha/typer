@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { useState, useCallback } from "react";
 function generateWords(count: number) {
-  return faker.lorem.words(count);
+  return faker.lorem.words(count).toLowerCase();
 }
 function useWords(count: number) {
   const [words, setWords] = useState<string>(generateWords(count));
