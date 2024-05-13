@@ -1,16 +1,16 @@
 import "./App.css";
 import Words from "./components/words";
-import { faker } from "@faker-js/faker";
 import Timer from "./components/timer";
 import RestartButton from "./components/restartButton";
 import Results from "./components/results";
 import UserTyping from "./components/userTyping";
+import useEngine from "./hooks/useEngine";
 import { ReactNode } from "react";
-const words = faker.lorem.words(10);
 function App() {
+  const { state, words, timeLeft } = useEngine();
   return (
     <>
-      <Timer timeleft={60} />;
+      <Timer timeleft={timeLeft} />;
       <WordContainer>
         <Words words={words} />;
         <UserTyping userInput={words} className="absolute inset-0" />
