@@ -7,9 +7,16 @@ const isCodeAllowed = (code: string) => {
     code.startsWith("Digit")
   );
 };
-function useTyping({ enabled }: { enabled: boolean }) {
+function useTyping({
+  enabled,
+  expectedWords,
+}: {
+  enabled: boolean;
+  expectedWords: string;
+}) {
   const [userTyped, setUserTyped] = useState("");
   const [cursor, setCursor] = useState(0);
+  const [totalError, setTotalError] = useState(0);
   const totalTyped = useRef(0);
   const clearTyped = useCallback(() => {
     setUserTyped("");
@@ -28,13 +35,30 @@ function useTyping({ enabled }: { enabled: boolean }) {
           totalTyped.current -= 1;
           break;
         default:
-          setUserTyped((prev) => prev.concat(key));
-          setCursor((prev) => prev + 1);
-          totalTyped.current += 1;
+          // If the key is not the expected character
+          if (expectedWords[cursor] !== key) {
+            // If the key is the expected character and there are no errors
+            if (totalError === 0) {
+              setUserTyped((prev) => prev.concat(key));
+              setCursor((prev) => prev + 1);
+              totalTyped.current += 1;
+              setTotalError(1);
+            } else if (totalError === 1) {
+              setTotalError(2);
+            }
+          } //If the key is the expected character and there are 2 errors, reset the total error
+          else {
+            setUserTyped((prev) => prev.concat(key));
+            setCursor((prev) => prev + 1);
+            totalTyped.current += 1;
+            if (totalError === 2) {
+              setTotalError(0);
+            }
+          }
           break;
       }
     },
-    [enabled]
+    [enabled, expectedWords, cursor, totalError]
   );
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
