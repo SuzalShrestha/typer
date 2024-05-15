@@ -38,22 +38,18 @@ function useTyping({
           // If the key is not the expected character
           if (expectedWords[cursor] !== key) {
             // If the key is the expected character and there are no errors
-            if (totalError === 0) {
+            if (totalError < 6) {
               setUserTyped((prev) => prev.concat(key));
               setCursor((prev) => prev + 1);
               totalTyped.current += 1;
-              setTotalError(1);
-            } else if (totalError === 1) {
-              setTotalError(2);
+              setTotalError(totalError + 1);
             }
           } //If the key is the expected character and there are 2 errors, reset the total error
           else {
             setUserTyped((prev) => prev.concat(key));
             setCursor((prev) => prev + 1);
             totalTyped.current += 1;
-            if (totalError === 2) {
-              setTotalError(0);
-            }
+            setTotalError(0);
           }
           break;
       }
