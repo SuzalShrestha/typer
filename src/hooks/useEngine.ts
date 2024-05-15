@@ -12,7 +12,7 @@ function useEngine() {
   const { timeLeft, startCountDown, stopCountDown } =
     useCountDownTimer(TimeLimit);
   const { userTyped, cursor, clearTyped, resetTotalTyped, totalTyped } =
-    useTyping({ enabled: state !== "end" });
+    useTyping({ enabled: state !== "end", expectedWords: words });
   const errors = useRef(0);
   const isStarting = state === "start" && cursor > 0;
   const sumErrors = useCallback(() => {
