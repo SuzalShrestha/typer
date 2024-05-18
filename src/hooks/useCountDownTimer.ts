@@ -1,5 +1,7 @@
 import { useRef, useCallback, useState, useEffect } from "react";
-function useCountDownTimer(seconds: number) {
+import useTimer from "./useTimer";
+function useCountDownTimer() {
+  const { timer: seconds } = useTimer();
   const [timeLeft, setTimeLeft] = useState(seconds);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startCountDown = useCallback(() => {
@@ -16,6 +18,9 @@ function useCountDownTimer(seconds: number) {
     }
     setTimeLeft(seconds);
   }, [setTimeLeft, seconds]);
+  useEffect(() => {
+    setTimeLeft(seconds);
+  }, [seconds]);
   //when count is 0 clear the interval
   useEffect(() => {
     if (!timeLeft && intervalRef.current) {
