@@ -21,7 +21,7 @@ function Results({
   }
   return (
     <motion.ul
-      className={`text-primary-400 flex flex-col items-center space-y-3 ${className}`}
+      className={`text-yellow-400 flex flex-col items-center space-y-3 ${className}`}
     >
       <motion.li
         className="text-xl font-semibold"

@@ -5,12 +5,10 @@ import useTyping from "./useTyping";
 import { calculateErrors } from "../utils/helper";
 export type Engine = "start" | "run" | "end";
 const NumberOfWords = 10;
-const TimeLimit = 30;
 function useEngine() {
   const [state, setState] = useState<Engine>("start");
   const { words, updateWords } = useWords(NumberOfWords);
-  const { timeLeft, startCountDown, stopCountDown } =
-    useCountDownTimer(TimeLimit);
+  const { timeLeft, startCountDown, stopCountDown } = useCountDownTimer();
   const { userTyped, cursor, clearTyped, resetTotalTyped, totalTyped } =
     useTyping({ enabled: state !== "end", expectedWords: words });
   const errors = useRef(0);
